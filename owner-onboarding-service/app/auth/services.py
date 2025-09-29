@@ -2,7 +2,7 @@ import logging
 from sqlalchemy.orm import Session
 from app.auth import models as user_model
 from app.auth import schemas as user_schema
-from app.auth import auth as auth_service
+from app.auth.security import get_password_hash
 from app.core.exceptions import CustomException
 
 logger = logging.getLogger(__name__)
@@ -21,7 +21,7 @@ def get_user_by_email(db: Session, email: str):
 
 def create_user(db: Session, user: user_schema.UserCreate):
     try:
-        hashed_password = auth_service.get_password_hash(user.password)
+        hashed_password = get_password_hash(user.password)
         db_user = user_model.User(username=user.username, email=user.email, hashed_password=hashed_password)
         if not db_user:
             raise CustomException(

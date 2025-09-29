@@ -8,8 +8,6 @@ from app.db.db_handler import get_db
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import datetime
 import logging
-
-
 logger = logging.getLogger(__name__)
 
 
@@ -17,6 +15,7 @@ router = APIRouter(
     prefix="/auth",
     tags=["auth"],
 )
+
 
 @router.post("/user/create", response_model=user_schema.UserBase)
 def create_user(user: user_schema.UserCreate, db: Session = Depends(get_db)) -> user_schema.UserBase:
